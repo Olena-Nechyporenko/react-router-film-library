@@ -1,0 +1,21 @@
+.header {
+  padding: 25px 30px;
+}
+.nav {
+  display: flex;
+  gap: 25px;
+}
+.navLink {
+  font-size: 22px;
+  font-weight: 500;
+  text-decoration: none;
+  color: black;
+}
+
+.navLink:hover,
+.navLink:focus {
+  color: brown;
+}
+.main {
+  padding: 0 30px;
+}
