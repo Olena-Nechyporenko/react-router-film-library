@@ -16,6 +16,11 @@
 .navLink:focus {
   color: brown;
 }
+
+.navLink:active {
+  color: blue;
+}
+
 .main {
   padding: 0 30px;
 }

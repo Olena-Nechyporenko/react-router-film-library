@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { ColorRing } from 'react-loader-spinner';
-import { Link, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+import MoviesListItems from 'components/MoviesListItems/MoviesListItems';
 import css from './Home.module.css';
 
 const Home = () => {
@@ -40,15 +41,7 @@ const Home = () => {
         />
       )}
       <ul className={css.list}>
-        {trendMovies.map(movie => {
-          return (
-            <li key={movie.id}>
-              <Link to={`${movie.id}`} className={css.link}>
-                {movie.title}
-              </Link>
-            </li>
-          );
-        })}
+        {trendMovies.length !== 0 && <MoviesListItems movies={trendMovies} />}
       </ul>
       {error && <span>Something went wrong!</span>}
       <Outlet />

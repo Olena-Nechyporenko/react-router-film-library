@@ -1,5 +1,6 @@
 import { NavLink, Outlet } from 'react-router-dom';
 import css from './Layout.module.css';
+import { Suspense } from 'react';
 export const Layout = () => {
   return (
     <>
@@ -13,9 +14,11 @@ export const Layout = () => {
           </NavLink>
         </nav>
       </header>
-      <main className={css.main}>
-        <Outlet />
-      </main>
+      <Suspense fallback={'LOADING PAGE...'}>
+        <main className={css.main}>
+          <Outlet />
+        </main>
+      </Suspense>
     </>
   );
 };

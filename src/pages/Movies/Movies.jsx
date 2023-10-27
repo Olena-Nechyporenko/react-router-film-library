@@ -1,24 +1,27 @@
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { ColorRing } from 'react-loader-spinner';
-import { Field, Formik, Form } from 'formik';
-import css from './Movies.module.css';
 import MoviesListItems from 'components/MoviesListItems/MoviesListItems';
+import SearchForm from 'components/SearchForm/SearchForm';
+import css from './Movies.module.css';
+
 const Movies = () => {
-  const initialValue = { keyword: '' };
-  const [keyword, setKeyword] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const handleSubmit = (values, { resetForm }) => {
-    setKeyword(values.keyword.trim());
-    resetForm();
+  const getQueryFromUrl = searchParams.get('query') ?? '';
+
+  const handleSubmit = value => {
+    const nextParams = value !== '' ? { query: value } : {};
+    setSearchParams(nextParams);
   };
 
   useEffect(() => {
-    if (keyword === '') {
+    if (getQueryFromUrl === '') {
       return;
     }
     async function searchMovie() {
@@ -26,7 +29,7 @@ const Movies = () => {
       setLoading(true);
       setError(false);
       const response = await axios.get(
-        `https://api.themoviedb.org/3/search/movie?api_key=8861740be6f72a2c7bebec9b75a3bd87&query=${keyword}`
+        `https://api.themoviedb.org/3/search/movie?api_key=8861740be6f72a2c7bebec9b75a3bd87&query=${getQueryFromUrl}`
       );
       try {
         if (response.data.results.length === 0) {
@@ -40,27 +43,11 @@ const Movies = () => {
       }
     }
     searchMovie();
-  }, [keyword]);
+  }, [getQueryFromUrl]);
 
   return (
     <>
-      <Formik initialValues={initialValue} onSubmit={handleSubmit}>
-        <Form className={css.form} autoComplete="off">
-          <label className={css.label} htmlFor="keyword">
-            <Field
-              className={css.input}
-              type="text"
-              autoComplete="off"
-              autoFocus
-              placeholder="Search movies"
-              name="keyword"
-            />
-          </label>
-          <button type="submit" className={css.button}>
-            <span className={css.buttonLabel}>Search</span>
-          </button>
-        </Form>
-      </Formik>
+      <SearchForm onSubmit={handleSubmit} />
       {loading && (
         <ColorRing
           visible={true}

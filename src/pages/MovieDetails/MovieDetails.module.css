@@ -1,0 +1,25 @@
+.wrapper {
+  display: flex;
+  gap: 20px;
+}
+.movieInfoWrapper {
+  width: 600px;
+}
+.genres {
+  padding: 0;
+  display: flex;
+  gap: 10px;
+  list-style: none;
+}
+.addList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.addLink {
+  font-size: 17px;
+}
+.goBack {
+  margin-bottom: 20px;
+  border: thick double #32a1ce;
+}
