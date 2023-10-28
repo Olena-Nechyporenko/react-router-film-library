@@ -3,10 +3,23 @@ import Layout from './Layout/Layout';
 import Cast from './Cast/Cast';
 import Reviews from './Reviews/Reviews';
 import { lazy } from 'react';
+import NotFoundPage from 'pages/NotFoundPage/NotFoundPage';
 
-const Home = lazy(() => import('pages/Home/Home'));
-const Movies = lazy(() => import('pages/Movies/Movies'));
-const MovieDetails = lazy(() => import('pages/MovieDetails/MovieDetails'));
+const Home = lazy(() =>
+  import('pages/Home/Home').then(module => {
+    return module;
+  })
+);
+const Movies = lazy(() =>
+  import('pages/Movies/Movies').then(module => {
+    return module;
+  })
+);
+const MovieDetails = lazy(() =>
+  import('pages/MovieDetails/MovieDetails').then(module => {
+    return module;
+  })
+);
 
 export const App = () => {
   return (
@@ -18,8 +31,8 @@ export const App = () => {
           <Route path="cast" element={<Cast />} />
           <Route path="reviews" element={<Reviews />} />
         </Route>
-        {/* <Route path="*" element={<Not Found Page />} /> */}
       </Route>
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };

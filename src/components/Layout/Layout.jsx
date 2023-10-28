@@ -1,6 +1,7 @@
 import { NavLink, Outlet } from 'react-router-dom';
-import css from './Layout.module.css';
 import { Suspense } from 'react';
+import css from './Layout.module.css';
+
 export const Layout = () => {
   return (
     <>

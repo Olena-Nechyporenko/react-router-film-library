@@ -1,7 +1,7 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { ColorRing } from 'react-loader-spinner';
 import { Outlet } from 'react-router-dom';
+import { getTrendingMovie } from 'api';
 import MoviesListItems from 'components/MoviesListItems/MoviesListItems';
 import css from './Home.module.css';
 
@@ -13,12 +13,10 @@ const Home = () => {
     async function trendingMovie() {
       setLoading(true);
       setError(false);
-      const response = await axios.get(
-        'https://api.themoviedb.org/3/trending/movie/day?api_key=8861740be6f72a2c7bebec9b75a3bd87'
-      );
       try {
-        setTrendMovies(response.data.results);
-      } catch (err) {
+        const response = await getTrendingMovie();
+        setTrendMovies(response.results);
+      } catch {
         setError(true);
       } finally {
         setLoading(false);

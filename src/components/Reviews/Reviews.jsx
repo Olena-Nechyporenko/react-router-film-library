@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { ColorRing } from 'react-loader-spinner';
+import { getReviews } from 'api';
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -12,11 +12,9 @@ const Reviews = () => {
     async function reviewsOfMovie() {
       setLoading(true);
       setError(false);
-      const response = await axios.get(
-        `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=8861740be6f72a2c7bebec9b75a3bd87`
-      );
       try {
-        setReviews(response.data.results);
+        const response = await getReviews(movieId);
+        setReviews(response.results);
       } catch {
         setError(true);
       } finally {
@@ -38,14 +36,19 @@ const Reviews = () => {
           colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
         />
       )}
-      <ul>
-        {reviews.map(review => (
-          <li key={review.id}>
-            <h3>Author: {review.author}</h3>
-            <p>{review.content}</p>
-          </li>
-        ))}
-      </ul>
+      {reviews.length === 0 ? (
+        'There is no review'
+      ) : (
+        <ul>
+          {reviews.map(review => (
+            <li key={review.id}>
+              <h3>Author: {review.author}</h3>
+              <p>{review.content}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+
       {error && <span>Something went wrong!</span>}
     </>
   );

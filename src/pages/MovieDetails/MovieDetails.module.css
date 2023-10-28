@@ -1,15 +1,6 @@
-.wrapper {
-  display: flex;
-  gap: 20px;
-}
-.movieInfoWrapper {
-  width: 600px;
-}
-.genres {
-  padding: 0;
-  display: flex;
-  gap: 10px;
-  list-style: none;
+.addWrapper {
+  border-top: 2px solid #e7e9fc;
+  border-bottom: 2px solid #e7e9fc;
 }
 .addList {
   display: flex;
@@ -19,7 +10,16 @@
 .addLink {
   font-size: 17px;
 }
+
 .goBack {
-  margin-bottom: 20px;
-  border: thick double #32a1ce;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 3px 5px;
+  text-decoration: none;
+  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px,
+    rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
+    rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+  width: 90px;
 }

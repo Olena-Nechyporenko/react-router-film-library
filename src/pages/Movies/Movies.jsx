@@ -1,8 +1,8 @@
-import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ColorRing } from 'react-loader-spinner';
+import { searchMovieByKeyword } from 'api';
 import MoviesListItems from 'components/MoviesListItems/MoviesListItems';
 import SearchForm from 'components/SearchForm/SearchForm';
 import css from './Movies.module.css';
@@ -28,14 +28,12 @@ const Movies = () => {
       setMovies([]);
       setLoading(true);
       setError(false);
-      const response = await axios.get(
-        `https://api.themoviedb.org/3/search/movie?api_key=8861740be6f72a2c7bebec9b75a3bd87&query=${getQueryFromUrl}`
-      );
       try {
-        if (response.data.results.length === 0) {
+        const response = await searchMovieByKeyword(getQueryFromUrl);
+        if (response.results.length === 0) {
           return toast.error('Sorry, there are no movies. Try again');
         }
-        setMovies(response.data.results);
+        setMovies(response.results);
       } catch {
         setError(true);
       } finally {

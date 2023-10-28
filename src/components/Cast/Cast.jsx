@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { ColorRing } from 'react-loader-spinner';
+import { getCasts } from 'api';
 import css from './Cast.module.css';
 const Cast = () => {
   const [cast, setCast] = useState([]);
@@ -14,11 +14,9 @@ const Cast = () => {
     async function castOfMovie() {
       setLoading(true);
       setError(false);
-      const response = await axios.get(
-        `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=8861740be6f72a2c7bebec9b75a3bd87`
-      );
       try {
-        setCast(response.data.cast);
+        const response = await getCasts(movieId);
+        setCast(response.cast);
       } catch {
         setError(false);
       } finally {
@@ -42,23 +40,28 @@ const Cast = () => {
           colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
         />
       )}
-      <ul className={css.castList}>
-        {cast.map(({ id, profile_path, name, character }) => (
-          <li key={id} className={css.castItem}>
-            <img
-              src={
-                profile_path
-                  ? `https://image.tmdb.org/t/p/w500/${profile_path}`
-                  : defaultImg
-              }
-              alt={name}
-              width={200}
-            />
-            <h3>{name}</h3>
-            <p>Character: {character}</p>
-          </li>
-        ))}
-      </ul>
+      {cast.length === 0 ? (
+        'There is no cast'
+      ) : (
+        <ul className={css.castList}>
+          {cast.map(({ id, profile_path, name, character }) => (
+            <li key={id} className={css.castItem}>
+              <img
+                src={
+                  profile_path
+                    ? `https://image.tmdb.org/t/p/w500/${profile_path}`
+                    : defaultImg
+                }
+                alt={name}
+                width={200}
+              />
+              <h3>{name}</h3>
+              <p>Character: {character}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+
       {error && <span>Something went wrong!</span>}
     </>
   );
